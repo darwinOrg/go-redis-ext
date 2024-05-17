@@ -13,7 +13,7 @@ import (
 	"time"
 )
 
-const defaultMessagePageSize = 1000
+var MessagePageSize = 1000
 
 func XAddValuesWithExpiration(ctx *dgctx.DgContext, stream string, values any, expiration time.Duration) (string, error) {
 	messageId, err := redisdk.XAddValues(stream, values)
@@ -68,7 +68,7 @@ func StartDeleteExpiredMessageTask(db daog.Datasource) {
 					return false, nil
 				}
 
-				messages, err := RedisMessageDao.QueryPageListMatcher(tc, matcher, daog.NewPager(defaultMessagePageSize, 1))
+				messages, err := RedisMessageDao.QueryPageListMatcher(tc, matcher, daog.NewPager(MessagePageSize, 1))
 				if err != nil {
 					dglogger.Errorf(ctx, "RedisMessageDao.QueryListMatcherWithViewColumns error: %v", err)
 					return false, err
@@ -98,7 +98,7 @@ func StartDeleteExpiredMessageTask(db daog.Datasource) {
 					return false, err
 				}
 
-				return count > defaultMessagePageSize, nil
+				return count > int64(MessagePageSize), nil
 			})
 		}
 	})
