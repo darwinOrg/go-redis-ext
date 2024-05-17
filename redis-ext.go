@@ -50,7 +50,7 @@ func XAddValuesWithExpiration(ctx *dgctx.DgContext, stream string, values any, e
 	return messageId, err
 }
 
-func StartCleanExpiredMessageTask(db daog.Datasource) {
+func StartDeleteExpiredMessageTask(db daog.Datasource) {
 	cron := dgcron.NewAndStart(dglock.NewDbLocker(db))
 	cron.AddJobWithLock("定时删除过期redis消息", "0 0/5 * * * ?", 5000, func(ctx *dgctx.DgContext) {
 		ctx.NotLogSQL = true
