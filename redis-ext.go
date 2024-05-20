@@ -15,7 +15,7 @@ import (
 
 var MessagePageSize = 1000
 
-func XAddValuesWithExpiration(ctx *dgctx.DgContext, stream string, values any, expiration time.Duration) (string, error) {
+func XAddWithExpiration(ctx *dgctx.DgContext, stream string, values any, expiration time.Duration) (string, error) {
 	messageId, err := redisdk.XAdd(stream, values)
 	if err != nil {
 		return messageId, err
