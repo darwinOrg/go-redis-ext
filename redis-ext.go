@@ -29,8 +29,17 @@ func XAddWithExpiration(ctx *dgctx.DgContext, stream string, values any, expirat
 		}
 	}()
 
+	err = PersistStreamMessageIdWithExpiration(ctx, stream, messageId, expiration)
+	if err != nil {
+		return messageId, err
+	}
+
+	return messageId, nil
+}
+
+func PersistStreamMessageIdWithExpiration(ctx *dgctx.DgContext, stream string, messageId string, expiration time.Duration) error {
 	now := time.Now()
-	err = daogext.Write(ctx, func(tc *daog.TransContext) error {
+	return daogext.Write(ctx, func(tc *daog.TransContext) error {
 		message := &RedisMessage{
 			StreamKey: stream,
 			MessageId: messageId,
@@ -38,7 +47,7 @@ func XAddWithExpiration(ctx *dgctx.DgContext, stream string, values any, expirat
 			CreatedBy: ctx.UserId,
 			CreatedAt: ttypes.NormalDatetime(now),
 		}
-		_, err = RedisMessageDao.Insert(tc, message)
+		_, err := RedisMessageDao.Insert(tc, message)
 		if err != nil {
 			dglogger.Errorf(ctx, "RedisMessageDao.Insert error: %v", err)
 			return err
@@ -46,8 +55,6 @@ func XAddWithExpiration(ctx *dgctx.DgContext, stream string, values any, expirat
 
 		return nil
 	})
-
-	return messageId, err
 }
 
 func StartDeleteExpiredMessageTask(db daog.Datasource) {
