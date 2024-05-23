@@ -4,11 +4,11 @@ go 1.19
 
 require (
 	github.com/darwinOrg/daog-ext v0.0.4
-	github.com/darwinOrg/go-common v0.1.53
+	github.com/darwinOrg/go-common v0.1.55
 	github.com/darwinOrg/go-cron v0.0.8
 	github.com/darwinOrg/go-dlock v0.0.3
 	github.com/darwinOrg/go-logger v0.0.6
-	github.com/darwinOrg/go-redis v0.0.4
+	github.com/darwinOrg/go-redis v0.0.5
 	github.com/rolandhe/daog v0.0.34
 )
 
