@@ -8,7 +8,7 @@ require (
 	github.com/darwinOrg/go-cron v0.0.16
 	github.com/darwinOrg/go-dlock v0.0.5
 	github.com/darwinOrg/go-logger v0.0.12
-	github.com/darwinOrg/go-redis v0.0.28
+	github.com/darwinOrg/go-redis v0.0.30
 	github.com/hdt3213/delayqueue v1.1.2
 	github.com/redis/go-redis/v9 v9.11.0
 	github.com/rolandhe/daog v0.0.41
